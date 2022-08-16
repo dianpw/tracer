@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Imports;
+
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\ToModel;
+use App\EmployeeActiveModel;
+use App\employee_biodatas_model;
+use App\employee_education_model;
+
+class ImportEmployeeActive implements ToCollection
+{
+    /**
+    * @param Collection $collection
+    */
+    public function collection(Collection $rows)
+    {
+        foreach ($rows as $row)
+        {
+            EmployeeActiveModel::create([
+                'uuid'          => $row[0],
+                'nik'           => $row[1],
+                'department_id' => $row[2],
+                'bagian_id'     => $row[3],
+                'posisi_id'     => $row[4],
+                'nama'          => $row[5],
+                'email'         => $row[6],
+                'tanggal_masuk' => $row[7],
+                'is_active'     => $row[8],
+                'type_id'       => $row[9]
+            ]);
+
+            employee_biodatas_model::create([
+                'nik'               => $row[10],
+                'warganegara_id'    => $row[11],
+                'id_kota_lahir'     => $row[12],
+                'id_agama'          => $row[13],
+                'alamat'            => $row[14],
+                'tanggal_lahir'     => $row[15],
+                'gender'            => $row[16],
+                'no_hp'             => $row[17],
+                'np_telfon'         => $row[18],
+                'no_ktp'            => $row[19],
+                'masa_berlaku'      => $row[20],
+                'no_rekening'       => $row[21],
+                'cabang'            => $row[22],
+                'no_npwp'           => $row[23],
+            ]);
+
+             employee_education_model::create([
+                'nik'               => $row[24],
+                'id_level'          => $row[25],
+                'lecture'           => $row[26],
+                'major'             => $row[27],
+                'tahun_lulus'       => $row[28],
+
+            ]);
+        }
+
+
+    }
+
+}
